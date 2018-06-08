@@ -1,13 +1,20 @@
 package com.epam.ts.service;
 
+import com.epam.ts.dao.UserDao;
 import com.epam.ts.entity.Ticket;
 import com.epam.ts.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
 public class TicketService {
+    @Autowired
+    private UserDao jdbcUserDao;
+    @Autowired
+    private UserDao mongoUserDao;
+
     private Map<String, Ticket> tickets = new HashMap<>();
     private Map<String, Ticket> reservedTickets = new HashMap<>();
     private Map<String, User> users = new HashMap<>();
@@ -63,6 +70,8 @@ public class TicketService {
     }
 
     public User getUser(String name) {
+        System.out.println(jdbcUserDao.getUser("userr2"));
+        System.out.println(mongoUserDao.getUser("userr2"));
         return users.get(name);
     }
 

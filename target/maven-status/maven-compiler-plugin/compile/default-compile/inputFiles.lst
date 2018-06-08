@@ -1,6 +1,10 @@
 D:\ts\src\main\java\com\epam\ts\controller\PdfDownloadController.java
+D:\ts\src\main\java\com\epam\ts\dao\UserDao.java
+D:\ts\src\main\java\com\epam\ts\dao\JDBCUserDao.java
 D:\ts\src\main\java\com\epam\ts\service\TicketService.java
 D:\ts\src\main\java\com\epam\ts\controller\TicketOperationsController.java
 D:\ts\src\main\java\com\epam\ts\entity\User.java
 D:\ts\src\main\java\com\epam\ts\entity\Ticket.java
+D:\ts\src\main\java\com\epam\ts\dao\JsonNodeRowMapper.java
+D:\ts\src\main\java\com\epam\ts\entity\Role.java
 D:\ts\src\main\java\com\epam\ts\pdf\PdfPage.java

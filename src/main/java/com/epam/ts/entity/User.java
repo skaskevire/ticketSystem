@@ -1,24 +1,42 @@
 package com.epam.ts.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class User {
+    private Integer id;
     private String name;
+    private String password;
+    private String roles;
     private String email;
-    private List<Ticket> ticketList = new ArrayList<>();
+
+    public User() {
+    }
 
     public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public List<Ticket> getTicketList() {
-        return ticketList;
+    public Integer getId() {
+        return id;
     }
 
-    public void setTicketList(List<Ticket> ticketList) {
-        this.ticketList = ticketList;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public String getName() {

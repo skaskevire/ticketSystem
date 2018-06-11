@@ -1,90 +1,62 @@
 package com.epam.ts.service;
 
+import com.epam.ts.dao.JDBCTicketDao;
+import com.epam.ts.dao.JDBCUserDao;
 import com.epam.ts.entity.Ticket;
 import com.epam.ts.entity.User;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
-@Component
 public class TicketService {
-    private Map<String, Ticket> tickets = new HashMap<>();
-    private Map<String, Ticket> reservedTickets = new HashMap<>();
-    private Map<String, User> users = new HashMap<>();
+    @Autowired
+    JDBCUserDao jdbcUserDao;
+    @Autowired
+    JDBCTicketDao jdbcTicketDao;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-    public Map<String, Ticket> getTickets() {
-        return tickets;
+    public List<Ticket> getReservedTickets() {
+        return jdbcTicketDao.getReservedTickets();
     }
 
-    public void setTickets(Map<String, Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-
-    public Map<String, Ticket> getReservedTickets() {
-        return reservedTickets;
-    }
-
-    public void setReservedTickets(Map<String, Ticket> reservedTickets) {
-        this.reservedTickets = reservedTickets;
-    }
-
-    public Map<String, User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Map<String, User> users) {
-        this.users = users;
-    }
-
-    public void reserveTicket(String user, String ticketNumber) {
-        users.get(user).getTicketList().add(tickets.get(ticketNumber));
-        reservedTickets.put(ticketNumber, tickets.get(ticketNumber));
-        tickets.remove(ticketNumber);
+    public void reserveTicket(String username, String ticketNumber) {
+        User user = jdbcUserDao.getUsers(username).get(0);
+        Ticket ticket = jdbcTicketDao.getTicketByNumber(ticketNumber);
+        jdbcTicketDao.reserveTicket(ticket.getId(), user.getId());
     }
 
     public void addUser(User user) {
-        users.put(user.getName(), user);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setRoles("RESGISTERED_USER");
+        jdbcUserDao.saveUser(user);
     }
 
     public User getUserByEmail(String email) {
-        User user = null;
-        for (User u : users.values()) {
-            if (u.getEmail().equals(email)) {
-                user = u;
-            }
-        }
-
-        return user;
+        return jdbcUserDao.getUserByEmail(email);
     }
 
     public void addTicket(Ticket ticket) {
-        tickets.put(ticket.getNumber(), ticket);
+        jdbcTicketDao.saveTicket(ticket);
     }
 
     public User getUser(String name) {
-        return users.get(name);
+        return jdbcUserDao.getUsers(name).get(0);
     }
 
     public void addTickets(List<Ticket> ticketList) {
         for (Ticket ticket : ticketList) {
-            tickets.put(ticket.getNumber(), ticket);
+            jdbcTicketDao.saveTicket(ticket);
         }
     }
 
     public List<Ticket> getTicketsByUserName(String username) {
-        return users.get(username).getTicketList();
+        return jdbcTicketDao.getTicketsByUserName(username);
     }
 
     public List<Ticket> getTicketsByEvent(String event) {
-        List<Ticket> result = new ArrayList<>();
-        for (Ticket ticket : tickets.values()) {
-            if (ticket.getName().equals(event)) {
-                result.add(ticket);
-            }
-        }
-
-        return result;
+        return jdbcTicketDao.getTicketsByName(event);
     }
-
 }

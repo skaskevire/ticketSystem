@@ -1,6 +1,10 @@
+D:\ts\src\main\java\com\epam\ts\service\UserAuthentificationService.java
 D:\ts\src\main\java\com\epam\ts\controller\PdfDownloadController.java
+D:\ts\src\main\java\com\epam\ts\dao\JDBCUserDao.java
+D:\ts\src\main\java\com\epam\ts\dao\JDBCTicketDao.java
 D:\ts\src\main\java\com\epam\ts\service\TicketService.java
 D:\ts\src\main\java\com\epam\ts\controller\TicketOperationsController.java
 D:\ts\src\main\java\com\epam\ts\entity\User.java
 D:\ts\src\main\java\com\epam\ts\entity\Ticket.java
+D:\ts\src\main\java\com\epam\ts\handler\UserAuthenticationSuccessHandler.java
 D:\ts\src\main\java\com\epam\ts\pdf\PdfPage.java

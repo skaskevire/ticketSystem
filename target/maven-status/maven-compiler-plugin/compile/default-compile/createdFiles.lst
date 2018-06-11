@@ -1,7 +1,10 @@
 com\epam\ts\controller\TicketOperationsController.class
+com\epam\ts\dao\JDBCTicketDao.class
 com\epam\ts\controller\PdfDownloadController.class
 com\epam\ts\entity\Ticket.class
+com\epam\ts\dao\JDBCUserDao.class
 com\epam\ts\pdf\PdfPage.class
 com\epam\ts\entity\User.class
 com\epam\ts\controller\TicketOperationsController$1.class
 com\epam\ts\service\TicketService.class
+com\epam\ts\service\UserAuthentificationService.class

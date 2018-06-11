@@ -1,4 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -8,7 +9,9 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
  http://www.springframework.org/schema/context
- http://www.springframework.org/schema/context/spring-context.xsd">
+ http://www.springframework.org/schema/context/spring-context.xsd
+ http://www.springframework.org/schema/security
+ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
     <!-- @Autowired -->
     <context:annotation-config/>
     <context:component-scan base-package="com.epam.ts"/>
@@ -22,4 +25,14 @@
         <property name="templateLoaderPath" value="/WEB-INF/ftl"/>
         <property name="preferFileSystemAccess" value="false"/>
     </bean>
+    <security:http auto-config="true">
+        <security:intercept-url pattern="/*" access="REGISTERED_USER"></security:intercept-url>
+    </security:http>
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="1" authorities="REGISTERED_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
 </beans>

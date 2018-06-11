@@ -7,15 +7,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.Principal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +29,14 @@ public class TicketOperationsController {
         return new ModelAndView("Index");
     }
 
-    @RequestMapping(value = "/users/add", method = RequestMethod.POST)
-    public ModelAndView addUser(@RequestParam("name") String username, @RequestParam("email") String email) {
-        ticketService.addUser(new User(username, email));
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login() {
+        return new ModelAndView("Login");
+    }
+
+    @PostMapping("/users/add")
+    public ModelAndView addUser(User user) {
+        ticketService.addUser(user);
         return new ModelAndView("Index");
     }
 
@@ -55,10 +59,17 @@ public class TicketOperationsController {
         return new ModelAndView("Index");
     }
 
-    @RequestMapping(value = "users/tickets/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/tickets/get", method = RequestMethod.GET)
     public ModelAndView getTicketsByUser(@RequestParam("name") String username) {
         Map<String, Object> params = new HashMap<>();
-        params.put("ticketList", ticketService.getUser(username).getTicketList());
+        params.put("ticketList", ticketService.getTicketsByUserName(username));
+        return new ModelAndView("Index", params);
+    }
+
+    @RequestMapping(value = "/users/tickets/booked/get", method = RequestMethod.GET)
+    public ModelAndView getBookedTickets() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("bticketList", ticketService.getReservedTickets());
         return new ModelAndView("Index", params);
     }
 

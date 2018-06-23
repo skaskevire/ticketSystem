@@ -82,7 +82,7 @@
     </fieldset>
     <fieldset>
         <legend>Get Booked Tickets</legend>
-        <form name="user" content="" action="users/tickets/booked/get" method="get">
+        <form name="user" content="" action="/users/tickets/booked/get" method="get">
             <input type="submit" value="   Get Booked Tickets   "/>
         </form>
         <br/>

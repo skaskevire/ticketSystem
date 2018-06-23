@@ -3,11 +3,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
  http://www.springframework.org/schema/context
  http://www.springframework.org/schema/context/spring-context.xsd
  http://www.springframework.org/schema/security
@@ -34,10 +40,8 @@
         <security:form-login login-page="/login" authentication-failure-url="/login?error" username-parameter="username" password-parameter="password"/>
         <security:logout delete-cookies="JSESSIONID" logout-success-url="/"/>
         <security:intercept-url method="GET" pattern="/" access="hasRole('REGISTERED_USER')"/>
-        <security:intercept-url method="GET" pattern="/users/*" access="hasRole('REGISTERED_USER')"/>
-        <security:intercept-url method="POST" pattern="/users/*" access="hasRole('REGISTERED_USER')"/>
+        <security:intercept-url method="GET" pattern="/users/get/*" access="hasRole('REGISTERED_USER')"/>
         <security:intercept-url method="GET" pattern="/tickets/*" access="hasRole('REGISTERED_USER')"/>
-        <security:intercept-url method="POST" pattern="/users/*" access="hasRole('REGISTERED_USER')"/>
         <security:intercept-url method="POST" pattern="/uploadData" access="hasRole('BOOKING_MANAGER')"/>
         <security:intercept-url method="GET" pattern="/users/tickets/booked/get*" access="hasRole('BOOKING_MANAGER')"/>
     </security:http>
@@ -46,14 +50,17 @@
             <security:password-encoder hash="sha" ref="passwordEncoder"/>
         </security:authentication-provider>
     </security:authentication-manager>
-<bean id="ticketService" class="com.epam.ts.service.TicketService" scope="singleton"/>
-    <bean id ="passwordEncoder" class = "org.springframework.security.crypto.password.Pbkdf2PasswordEncoder" />
+     <bean id ="passwordEncoder" class = "org.springframework.security.crypto.password.Pbkdf2PasswordEncoder" />
 
-    <bean id="oracleDataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
         <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
         <property name="username" value="system" />
         <property name="password" value="admin" />
     </bean>
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>
 </beans>

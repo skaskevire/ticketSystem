@@ -1,5 +1,8 @@
 package com.epam.ts.entity;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Ticket {
 
 
@@ -7,6 +10,7 @@ public class Ticket {
     private String date;
     private String number;
     private String name;
+    private Double ticketPrice;
 
     private String owner;
 
@@ -48,5 +52,13 @@ public class Ticket {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(Double ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 }

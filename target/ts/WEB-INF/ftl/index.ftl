@@ -2,12 +2,13 @@
 <head><title>Ticket System</title>
 <body>
 <div id="content">
-
+    <a href="/logout">Logout</a>
     <fieldset>
         <legend>Add User</legend>
         <form name="user" action="/users/add" method="post">
             Name: <input type="text" name="name"/> <br/>
             Email: <input type="text" name="email"/> <br/>
+            Password: <input type="text" name="password"/> <br/>
             <input type="submit" value="   Add   "/>
         </form>
     </fieldset>
@@ -79,7 +80,27 @@
     </#if>
     </table>
     </fieldset>
-
+    <fieldset>
+        <legend>Get Booked Tickets</legend>
+        <form name="user" content="" action="/users/tickets/booked/get" method="get">
+            <input type="submit" value="   Get Booked Tickets   "/>
+        </form>
+        <br/>
+        <table class="datatable">
+            <#if bticketList??>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+            </tr>
+            <#list bticketList as ticket>
+            <tr>
+                <td>${ticket.name}</td>
+                <td>${ticket.date}</td>
+            </tr>
+        </#list>
+    </#if>
+    </table>
+    </fieldset>
 
     <fieldset>
         <legend>Upload Tickets</legend>

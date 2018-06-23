@@ -4,8 +4,14 @@ import com.epam.ts.entity.Ticket;
 import com.epam.ts.entity.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,36 +20,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-@Component("jdbcTicketDao")
+@Repository("jdbcTicketDao")
 public class JDBCTicketDao {
     @Autowired
     private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
+    @PostConstruct
+    private void postConstruct() {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     public void reserveTicket(Integer id, Integer userId) {
         String sql = "UPDATE T_TICKET " +
                 "SET USER_ID = ? WHERE ID = ?";
 
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement(sql);
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, id);
+        jdbcTemplate.update(sql, new Object[]{
+                userId, id
+        });
 
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void saveTicket(Ticket ticket) {
         Locale.setDefault(Locale.ENGLISH);
-        String sql = "INSERT INTO T_TICKET (TDATE,DESCRIPTION,TNUMBER) VALUES (?,?,?)";
+        String sql = "INSERT INTO T_TICKET (TDATE,DESCRIPTION,TNUMBER,TICKET_PRICE) VALUES (?,?,?,?)";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = dataSource.getConnection().prepareStatement(sql);
             preparedStatement.setString(1, ticket.getDate());
             preparedStatement.setString(2, ticket.getName());
             preparedStatement.setString(3, ticket.getNumber());
+            preparedStatement.setDouble(3, ticket.getTicketPrice());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -118,6 +124,7 @@ public class JDBCTicketDao {
         List<Ticket> tickets = new ArrayList<>();
         String sql = "SELECT ID,T.DESCRIPTION," +
                 "T.TDATE," +
+                "T.TICKET_PRICE," +
                 "T.TNUMBER " +
                 "FROM T_TICKET T" +
                 " WHERE T.DESCRIPTION = ?";
@@ -134,6 +141,7 @@ public class JDBCTicketDao {
                 ticket.setDate(rs.getString("tdate"));
                 ticket.setName(rs.getString("description"));
                 ticket.setNumber(rs.getString("tnumber"));
+                ticket.setTicketPrice(rs.getDouble("ticket_price"));
                 tickets.add(ticket);
             }
 
@@ -149,6 +157,7 @@ public class JDBCTicketDao {
         List<Ticket> tickets = new ArrayList<>();
         String sql = "SELECT T.ID,T.DESCRIPTION," +
                 "T.TDATE," +
+                "T.TICKET_PRICE," +
                 "T.TNUMBER " +
                 "FROM T_TICKET T" +
                 " WHERE T.TNUMBER = ?";
@@ -165,6 +174,7 @@ public class JDBCTicketDao {
                 ticket.setDate(rs.getString("tdate"));
                 ticket.setName(rs.getString("description"));
                 ticket.setNumber(rs.getString("tnumber"));
+                ticket.setTicketPrice(rs.getDouble("ticket_price"));
                 tickets.add(ticket);
             }
 

@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserAuthentificationService implements UserDetailsService {
 @Autowired
-TicketService ticketService;
+BookingFacade bookingFacade;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         org.springframework.security.core.userdetails.User.UserBuilder builder = null;
-        User user = ticketService.getUser(username);
+        User user = bookingFacade.getUser(username);
         builder = org.springframework.security.core.userdetails.User.withUsername(user.getName());
         builder.password(user.getPassword());
         builder.roles(user.getRoles().split(","));

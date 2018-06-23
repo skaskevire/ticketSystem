@@ -1,11 +1,18 @@
 package com.epam.ts.entity;
 
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement
 public class User {
     private Integer id;
     private String name;
     private String password;
     private String roles;
     private String email;
+    private UserAccount userAccount;
 
     public User() {
     }
@@ -53,5 +60,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
     }
 }

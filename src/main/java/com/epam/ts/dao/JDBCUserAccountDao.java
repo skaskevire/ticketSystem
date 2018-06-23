@@ -1,6 +1,5 @@
 package com.epam.ts.dao;
 
-import com.epam.ts.entity.Ticket;
 import com.epam.ts.entity.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

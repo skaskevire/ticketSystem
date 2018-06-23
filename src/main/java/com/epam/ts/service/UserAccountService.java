@@ -1,7 +1,6 @@
 package com.epam.ts.service;
 
 import com.epam.ts.dao.JDBCUserAccountDao;
-import com.epam.ts.entity.User;
 import com.epam.ts.entity.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

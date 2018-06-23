@@ -4,7 +4,6 @@ import com.epam.ts.entity.Ticket;
 import com.epam.ts.entity.User;
 import com.epam.ts.entity.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +12,6 @@ import java.util.*;
 
 @Service
 public class BookingFacade {
-    @Autowired
-    PasswordEncoder passwordEncoder;
     @Autowired
     UserAccountService userAccountService;
     @Autowired
@@ -42,8 +39,6 @@ public class BookingFacade {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void addUser(User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
         user.setRoles("REGISTERED_USER");
         UserAccount userAccount = new UserAccount();
         userAccount.setPrepaidAmount(1200d);

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://epam.com/tickets-web-service" xmlns:tns="http://epam.com/tickets-web-service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="addUserResponse" type="tns:addUserResponse"/>
+
+  <xs:element name="bookTicketResponse" type="tns:bookTicketResponse"/>

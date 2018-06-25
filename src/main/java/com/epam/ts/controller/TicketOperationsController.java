@@ -25,20 +25,7 @@ public class TicketOperationsController {
 
     @Autowired
     TicketReservationService ticketReservationService;
-    @RequestMapping("/")
-    public ModelAndView startup() {
-        return new ModelAndView("Index");
-    }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login() {
-        return new ModelAndView("Login");
-    }
-
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ModelAndView register() {
-        return new ModelAndView("Register");
-    }
     @PostMapping("/users/add")
     public ModelAndView addUser(User user) {
         bookingFacade.addUser(user);
@@ -59,9 +46,8 @@ public class TicketOperationsController {
     }
 
     @RequestMapping(value = "/users/tickets/book", method = RequestMethod.POST)
-    public ModelAndView bookTicket(@RequestParam("name") String username, @RequestParam("ticketID") String id) {
+    public void bookTicket(@RequestParam("name") String username, @RequestParam("ticketID") String id) {
         bookingFacade.reserveTicket(username, id);
-        return new ModelAndView("Index");
     }
 
     @RequestMapping(value = "/users/tickets/get", method = RequestMethod.GET)
@@ -76,15 +62,6 @@ public class TicketOperationsController {
         Map<String, Object> params = new HashMap<>();
         params.put("bticketList", bookingFacade.getReservedTickets());
         return new ModelAndView("Index", params);
-    }
-
-    @RequestMapping(value = "/uploadData", method = RequestMethod.POST)
-    public ModelAndView uploadData(@RequestParam("file") MultipartFile file) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final List<Ticket> ticketList = (List<Ticket>) mapper.readValue(file.getInputStream(), new TypeReference<List<Ticket>>() {
-        });
-        bookingFacade.addTickets(ticketList);
-        return new ModelAndView("Index");
     }
 
     @ExceptionHandler({Exception.class})

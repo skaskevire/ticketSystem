@@ -6,7 +6,9 @@ D:\ts\src\main\java\com\epam\ts\controller\TicketOperationsController.java
 D:\ts\src\main\java\com\epam\ts\service\TicketReservationService.java
 D:\ts\src\main\java\com\epam\ts\entity\Ticket.java
 D:\ts\src\main\java\com\epam\ts\service\UserAuthentificationService.java
+D:\ts\src\main\java\com\epam\ts\viewresolvers\PdfViewResolver.java
 D:\ts\src\main\java\com\epam\ts\service\UserAccountService.java
+D:\ts\src\main\java\com\epam\ts\viewresolvers\JsonViewResolver.java
 D:\ts\src\main\java\com\epam\ts\entity\User.java
 D:\ts\src\main\java\com\epam\ts\dao\JDBCUserAccountDao.java
 D:\ts\src\main\java\com\epam\ts\entity\UserAccount.java

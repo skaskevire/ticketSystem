@@ -1,4 +1,5 @@
 com\epam\ts\controller\TicketOperationsController.class
+com\epam\ts\viewresolvers\PdfViewResolver.class
 com\epam\ts\controller\PdfDownloadController.class
 com\epam\ts\dao\JDBCUserAccountDao.class
 com\epam\ts\service\TicketReservationService.class
@@ -9,7 +10,7 @@ com\epam\ts\service\UserService.class
 com\epam\ts\entity\Ticket.class
 com\epam\ts\dao\JDBCUserDao.class
 com\epam\ts\pdf\PdfPage.class
+com\epam\ts\viewresolvers\JsonViewResolver.class
 com\epam\ts\entity\User.class
-com\epam\ts\controller\TicketOperationsController$1.class
 com\epam\ts\service\BookingFacade.class
 com\epam\ts\service\UserAuthentificationService.class

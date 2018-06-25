@@ -4,7 +4,6 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -12,8 +11,6 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd
  http://www.springframework.org/schema/context
  http://www.springframework.org/schema/context/spring-context.xsd
  http://www.springframework.org/schema/security
@@ -21,35 +18,20 @@
     <!-- @Autowired -->
     <context:annotation-config/>
     <context:component-scan base-package="com.epam.ts"/>
-    <mvc:annotation-driven/>
-  <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
-        <property name="basename" value="views"/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="viewResolvers">
+            <list>
+                <bean class="com.epam.ts.viewresolvers.JsonViewResolver"/>
+                <bean class="com.epam.ts.viewresolvers.PdfViewResolver"/>
+            </list>
+        </property>
     </bean>
-    <bean id="multipartResolver"
-          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-    <bean id="freeMarkerConfiguration" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value="/WEB-INF/ftl"/>
-        <property name="preferFileSystemAccess" value="false"/>
-    </bean>
-    <security:http auto-config="true" >
-
-        <security:csrf disabled="true"/>
-        <security:remember-me  key="unique-and-secret"
-                               remember-me-cookie="remember-me-cookie"
-                               token-validity-seconds="3600"/>
-        <security:form-login login-page="/login" authentication-failure-url="/login?error" username-parameter="username" password-parameter="password"/>
-        <security:logout delete-cookies="JSESSIONID" logout-success-url="/"/>
-        <security:intercept-url method="GET" pattern="/" access="hasRole('REGISTERED_USER')"/>
-        <security:intercept-url method="GET" pattern="/users/get/*" access="hasRole('REGISTERED_USER')"/>
-        <security:intercept-url method="GET" pattern="/tickets/*" access="hasRole('REGISTERED_USER')"/>
-        <security:intercept-url method="POST" pattern="/uploadData" access="hasRole('BOOKING_MANAGER')"/>
-        <security:intercept-url method="GET" pattern="/users/tickets/booked/get*" access="hasRole('BOOKING_MANAGER')"/>
-    </security:http>
-    <security:authentication-manager>
-        <security:authentication-provider user-service-ref="userAuthentificationService">
-            <security:password-encoder hash="sha" ref="passwordEncoder"/>
-        </security:authentication-provider>
-    </security:authentication-manager>
+    <security:http auto-config="true" />
      <bean id ="passwordEncoder" class = "org.springframework.security.crypto.password.Pbkdf2PasswordEncoder" />
 
     <bean id="dataSource"
